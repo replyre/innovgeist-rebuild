@@ -1128,6 +1128,8 @@ function CustomVisual({ progress }: { progress: number }) {
     msgTexts: HTMLElement[];
     msgCursors: HTMLElement[];
     fusionSection: HTMLElement | null;
+    fusionTitle: HTMLElement | null;
+    fusionContent: HTMLElement | null;
     techIcons: HTMLElement[];
     connectLines: SVGLineElement[];
     fusionCenter: HTMLElement | null;
@@ -1142,7 +1144,8 @@ function CustomVisual({ progress }: { progress: number }) {
   }>({
     topBar: null, liveDot: null, liveLabel: null,
     msgBubbles: [], msgTexts: [], msgCursors: [],
-    fusionSection: null, techIcons: [], connectLines: [], fusionCenter: null,
+    fusionSection: null, fusionTitle: null, fusionContent: null,
+    techIcons: [], connectLines: [], fusionCenter: null,
     resultSection: null, statCards: [], statValues: [], sparkBars: [],
     progressTrack: null, progressFill: null, progressLabel: null,
     outerContainer: null,
@@ -1162,6 +1165,7 @@ function CustomVisual({ progress }: { progress: number }) {
       fusionTitle: el.querySelector(".cv-fusion-title"),
       fusionContent: el.querySelector(".cv-fusion-content"),
       techIcons: Array.from(el.querySelectorAll(".cv-tech-icon")),
+      connectLines: Array.from(el.querySelectorAll(".cv-connect-line")) as SVGLineElement[],
       fusionCenter: el.querySelector(".cv-fusion-center"),
       resultSection: el.querySelector(".cv-results"),
       statCards: Array.from(el.querySelectorAll(".cv-stat-card")),
@@ -1379,7 +1383,7 @@ function CustomVisual({ progress }: { progress: number }) {
                         border: `1px solid ${isClient ? colors.stone[600] + "25" : colors.accent + "20"}`,
                       }}
                     >
-                      <span className="cv-msg-text font-mono text-[7px] md:text-[8px] leading-[1.5]" style={{ color: isClient ? colors.stone[300] : colors.chalk }} />
+                      <span className="cv-msg-text font-mono text-[7px] md:text-[8px] leading-[1.5]" style={{ color: isClient ? colors.stone[200] : colors.chalk }} />
                       <span className="cv-msg-cursor font-mono text-[8px]" style={{ color: colors.accent, opacity: 0 }}>|</span>
                     </div>
                   </div>
@@ -1439,7 +1443,7 @@ function CustomVisual({ progress }: { progress: number }) {
                   >
                     <div>
                       <span className="cv-stat-value font-mono text-[10px] md:text-[12px] font-bold leading-none" style={{ color: stat.color }} />
-                      <div className="font-mono text-[5px] md:text-[6px] tracking-[0.08em] mt-0.5" style={{ color: colors.stone[500] }}>
+                      <div className="font-mono text-[5px] md:text-[6px] tracking-[0.08em] mt-0.5" style={{ color: colors.stone[400] }}>
                         {stat.label}
                       </div>
                     </div>
