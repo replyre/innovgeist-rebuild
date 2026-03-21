@@ -32,11 +32,11 @@ export function Footer() {
       className="bg-surface border-t"
       style={{ borderColor: `${colors.stone[600]}30` }}
     >
-      <Container className="py-16 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+      <Container className="py-16 md:py-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-10 lg:gap-8">
           {/* Col 1 — Brand */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <a href="/" className="flex items-center gap-2.5 mb-4">
+          <div>
+            <a href="/" className="flex items-center gap-2.5 mb-5 opacity-90 hover:opacity-100 transition-opacity">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logo.png"
@@ -48,29 +48,29 @@ export function Footer() {
                 Innovgeist
               </span>
             </a>
-            <p className="font-mono text-xs text-stone-400 leading-relaxed mb-3">
+            <p className="font-mono text-xs text-stone-400 leading-relaxed mb-4 max-w-[200px]">
               Systems that generate revenue.
               <br />
               Not just software.
             </p>
             <p className="text-xs text-stone-600 leading-relaxed">
-              Lucknow, Uttar Pradesh, India
+              Lucknow / Kanpur
               <br />
-              Kanpur, Uttar Pradesh, India
+              Uttar Pradesh, India
             </p>
           </div>
 
           {/* Col 2 — Navigation */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-stone-600 mb-4">
+            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-600 mb-5">
               Navigate
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-sm text-stone-400 hover:text-chalk transition-colors duration-200"
+                    className="text-[13px] text-stone-400 hover:text-chalk transition-colors duration-200"
                   >
                     {link.label}
                   </a>
@@ -81,15 +81,15 @@ export function Footer() {
 
           {/* Col 3 — Services */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-stone-600 mb-4">
+            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-600 mb-5">
               Services
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {serviceLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-stone-400 hover:text-chalk transition-colors duration-200"
+                    className="text-[13px] text-stone-400 hover:text-chalk transition-colors duration-200"
                   >
                     {link.label}
                   </a>
@@ -100,15 +100,16 @@ export function Footer() {
 
           {/* Col 4 — Connect */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-stone-600 mb-4">
+            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-600 mb-5">
               Connect
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {connectLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-stone-400 hover:text-chalk transition-colors duration-200"
+                    className="text-[13px] text-stone-400 hover:text-chalk transition-colors duration-200 block truncate sm:whitespace-normal"
+                    title={link.label}
                   >
                     {link.label}
                   </a>
@@ -122,19 +123,21 @@ export function Footer() {
       {/* Bottom bar */}
       <div
         className="border-t"
-        style={{ borderColor: `${colors.stone[600]}20` }}
+        style={{ borderColor: `${colors.stone[600]}15` }}
       >
-        <Container className="py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4 text-xs text-stone-600">
-            <span>&copy; 2026 Innovgeist. All rights reserved.</span>
-            <a href="/privacy" className="hover:text-stone-400 transition-colors">Privacy Policy</a>
-            <a href="/terms" className="hover:text-stone-400 transition-colors">Terms</a>
+        <Container className="py-6 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-6 text-[11px] text-stone-600 tracking-wide">
+            <span className="opacity-80">&copy; 2026 Innovgeist Labs. All rights reserved.</span>
+            <div className="flex items-center gap-4">
+              <a href="/privacy" className="hover:text-stone-400 transition-colors py-1">Privacy Policy</a>
+              <a href="/terms" className="hover:text-stone-400 transition-colors py-1">Terms</a>
+            </div>
           </div>
 
           {/* Tetris signature — row of tiny outlined blocks */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 opacity-40">
             {tetrisColors.map((color, i) => (
-              <svg key={i} width={8} height={8} viewBox="0 0 8 8">
+              <svg key={i} width={7} height={7} viewBox="0 0 8 8">
                 <rect
                   x={0.5}
                   y={0.5}
@@ -143,7 +146,6 @@ export function Footer() {
                   fill="none"
                   stroke={color}
                   strokeWidth={1}
-                  opacity={0.5}
                 />
               </svg>
             ))}

@@ -195,7 +195,7 @@ export function EngagementSection() {
             }
 
             // Dim previous step
-            if (i > 0) {
+            if (!isMobile && i > 0) {
               const prevStep = stepRefs.current[i - 1];
               if (prevStep) {
                 tl.to(
@@ -220,8 +220,8 @@ export function EngagementSection() {
             }
           });
 
-          // Auto-scroll step container on small screens (desktop only)
-          if (!isMobile && cardContainerRef.current) {
+          // Auto-scroll step container (on both mobile and desktop)
+          if (cardContainerRef.current) {
             const container = cardContainerRef.current;
             const scrollProxy = { scroll: 0 };
 

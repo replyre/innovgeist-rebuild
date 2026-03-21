@@ -336,7 +336,7 @@ export function ServicesSection() {
       ref={sectionRef}
       className="relative min-h-screen bg-void overflow-hidden"
     >
-      <Container className="relative z-10 flex flex-col h-screen py-6 sm:py-8 md:py-12 lg:py-16">
+      <Container className="relative z-10 flex flex-col min-h-screen md:h-screen py-6 sm:py-8 md:py-12 lg:py-16">
         {/* Headline */}
         <div ref={headlineRef} className="mb-4">
           <h2 className="flex flex-wrap font-display type-heading text-chalk">
@@ -396,7 +396,7 @@ export function ServicesSection() {
             style={{ backgroundColor: 'rgba(12,10,9,0.78)' }} />
 
           {/* RIGHT: Service cards */}
-          <div ref={cardContainerRef} className="relative z-[3] w-full md:z-auto md:w-[50%] flex flex-col gap-3 overflow-hidden scrollbar-hidden">
+          <div ref={cardContainerRef} className="relative z-[3] w-full md:z-auto md:w-[50%] flex flex-col gap-3 md:overflow-hidden scrollbar-hidden">
             {SERVICES.map((service, i) => (
               <div
                 key={service.keyword}

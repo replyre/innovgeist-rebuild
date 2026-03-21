@@ -145,7 +145,7 @@ export function ProblemSection() {
             );
 
             // Dim previous card
-            if (i > 0) {
+            if (!isMobile && i > 0) {
               const prevCard = cardRefs.current[i - 1];
               if (prevCard) {
                 tl.to(prevCard, { opacity: 0.25, duration: 0.04 }, problem.progressStart);
@@ -153,8 +153,8 @@ export function ProblemSection() {
             }
           });
 
-          // Auto-scroll card container on small screens (desktop only)
-          if (!isMobile && cardContainerRef.current) {
+          // Auto-scroll card container (on both mobile and desktop)
+          if (cardContainerRef.current) {
             const container = cardContainerRef.current;
             const scrollProxy = { scroll: 0 };
 
@@ -175,9 +175,11 @@ export function ProblemSection() {
           }
 
           // Dim last card before closing
-          const lastCard = cardRefs.current[3];
-          if (lastCard) {
-            tl.to(lastCard, { opacity: 0.25, duration: 0.04 }, 0.76);
+          if (!isMobile) {
+            const lastCard = cardRefs.current[3];
+            if (lastCard) {
+              tl.to(lastCard, { opacity: 0.25, duration: 0.04 }, 0.76);
+            }
           }
 
           // Mobile game-over overlay (0.86 - 0.90)
