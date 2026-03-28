@@ -51,6 +51,17 @@ const TESTIMONIALS = [
   },
 ];
 
+const CLIENTS = [
+  { name: "SickSyx", logo: "/images/clients/SickSyx11.png", color: colors.accent, id: "LOG-01", span: "md:col-span-2 md:row-span-1" },
+  { name: "Space.Labs", logo: "/images/clients/client-2.png", color: colors.ember, id: "LOG-02", span: "md:col-span-1 md:row-span-2" },
+  { name: "Kull", logo: "/images/clients/Kull.png", color: colors.accent, id: "LOG-03", span: "md:col-span-1 md:row-span-1" },
+  { name: "Scholaraxis", logo: "/images/clients/Scholaraxis.png", color: colors.ember, id: "LOG-04", span: "md:col-span-1 md:row-span-1" },
+  { name: "GradeGuru", logo: "/images/clients/GradeGuru11.png", color: colors.accentMuted, id: "LOG-05", span: "md:col-span-1 md:row-span-1" },
+  { name: "House of Pehr", logo: "/images/clients/houseofpehr.webp", color: colors.accent, id: "LOG-06", span: "md:col-span-1 md:row-span-1" },
+  { name: "EntryBridge", logo: "/images/clients/EntryBridge.jpg", color: colors.ember, id: "LOG-07", span: "md:col-span-2 md:row-span-1" },
+  { name: "Client 1", logo: "/images/clients/client-1.png", color: colors.accentMuted, id: "LOG-08", span: "md:col-span-2 md:row-span-1" },
+];
+
 export function TestimonialsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -105,7 +116,7 @@ export function TestimonialsSection() {
         );
       }
 
-      // Per-card Tetris block assembly
+      // Per-card block assembly
       if (cardsRef.current) {
         const cards = cardsRef.current.querySelectorAll(".testimonial-card");
         cards.forEach((card, i) => {
@@ -183,42 +194,27 @@ export function TestimonialsSection() {
         });
       }
 
-      // Logo grid — fill in like Tetris row then line-clear flash
+      // Logo grid — Technical HUD reveal
       if (logoGridRef.current) {
         const cells = logoGridRef.current.querySelectorAll(".logo-cell");
 
-        const logoTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: logoGridRef.current,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        });
-
-        logoTl.fromTo(
+        gsap.fromTo(
           cells,
-          { opacity: 0, scale: 0.8 },
+          { opacity: 0, y: 30, scale: 0.95 },
           {
             opacity: 1,
+            y: 0,
             scale: 1,
-            stagger: 0.05,
-            duration: 0.3,
-            ease: "power2.out",
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: logoGridRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
           }
         );
-
-        const flashOverlays = logoGridRef.current.querySelectorAll(".flash-overlay");
-        if (flashOverlays.length) {
-          logoTl.fromTo(
-            flashOverlays,
-            { x: "-100%", opacity: 0 },
-            { x: "100%", opacity: 0.4, duration: 0.6, ease: "power2.inOut" },
-            `>-0.1`
-          );
-          logoTl.to(flashOverlays, { opacity: 0, duration: 0.2 });
-        }
-
-        // logos stay full color
       }
 
       // Bridge line fade
@@ -244,17 +240,6 @@ export function TestimonialsSection() {
 
   const headlineWords =
     "Trusted to Build Systems That Run in Production".split(" ");
-
-  // Each 1x1 cell in the grid is a square. The grid is 8 columns.
-  // We use explicit grid-column / grid-row placement so nothing shifts.
-  //
-  // Layout (desktop):
-  //   Row 1: SickSyx [1-4](3x1)  | client-2 [4-6](2x2) | EntryBridge [6-7] | GradeGuru [7-8] | Kull [8-9]
-  //   Row 2: client-1 [1-2]      | HouseOfPehr [2-3]    | Scholaraxis [3-4] | (client-2 cont) | filler [6-7] | filler [7-8] | filler [8-9]
-  //
-  // SickSyx = 3 cols, 1 row (wide horizontal bar)
-  // client-2 = 2 cols, 2 rows (big square)
-  // everything else = 1x1 square
 
   return (
     <>
@@ -393,197 +378,55 @@ export function TestimonialsSection() {
           {/* ── Client logos heading ── */}
           <p className="text-center text-stone-400 text-sm md:text-base font-mono mb-8">&ldquo;Revenue isn&apos;t luck &mdash; it&apos;s systems stacked right, row after row.&rdquo;</p>
 
-          {/* ── Client logos — Tetris grid ── */}
-          <div className="relative" ref={logoGridRef}>
+          {/* ── Client logos — Technical HUD Grid ── */}
+          <div className="relative mb-8 overflow-hidden rounded-sm">
+            {/* Background Neural Glows */}
+            <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-ember/5 blur-[120px] rounded-full pointer-events-none" />
 
-            {/* ── MOBILE grid (4 cols, 6 rows) ── */}
-            <div
-              className="grid md:hidden gap-px relative"
-              style={{
-                backgroundColor: `${colors.stone[600]}10`,
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gridTemplateRows: "repeat(6, 1fr)",
-              }}
+            <div 
+              ref={logoGridRef}
+              className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense gap-3 md:gap-4 relative z-10"
             >
-              {/* Row 1: SickSyx (cols 1-3), filler */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden"
-                style={{ gridColumn: "1 / 4", gridRow: "1 / 2", border: `1px solid ${colors.accent}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/SickSyx11.png" alt="SickSyx" fill className="object-contain" />
-              </div>
-              <div className="logo-cell aspect-square" style={{ gridColumn: "4 / 5", gridRow: "1 / 2", border: `1px solid ${colors.stone[600]}`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
+              {CLIENTS.map((client) => (
+                <div
+                  key={client.id}
+                  className={`logo-cell relative group p-6 md:p-8 flex items-center justify-center overflow-hidden rounded-sm transition-all duration-300 hover:z-20 ${client.span}`}
+                  style={{
+                    backgroundColor: `${colors.surface}40`,
+                    backdropFilter: "blur(12px)",
+                    border: `1px solid ${colors.stone[600]}20`,
+                    minHeight: "160px",
+                    opacity: 0, // Animated via GSAP
+                  }}
+                >
+                  {/* Theme-integrated Spotlight */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] group-hover:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0%,transparent_70%)] transition-colors duration-500" />
+                  
+                  {/* HUD Corner Accents */}
+                  <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/5 group-hover:border-accent/60 transition-colors" />
+                  <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/5 group-hover:border-accent/60 transition-colors" />
+                  <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/5 group-hover:border-accent/60 transition-colors" />
+                  <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/5 group-hover:border-accent/60 transition-colors" />
 
-              {/* Row 2: Kull, client-1, filler, HouseOfPehr */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "1 / 2", gridRow: "2 / 3", border: `1px solid ${colors.ember}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/Kull.png" alt="Kull" fill className="object-cover" />
-              </div>
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "2 / 3", gridRow: "2 / 3", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/client-1.png" alt="Client" fill className="object-cover" />
-              </div>
-              <div className="logo-cell aspect-square" style={{ gridColumn: "3 / 4", gridRow: "2 / 3", border: `1px solid ${colors.accent}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "4 / 5", gridRow: "2 / 3", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/houseofpehr.webp" alt="House of Pehr" fill className="object-contain p-2" />
-              </div>
+                  {/* Logo with original colors */}
+                  <div className="relative w-full h-full max-w-[85%] max-h-[85%] transition-all duration-700 group-hover:scale-105">
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      fill
+                      className="object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                  </div>
 
-              {/* Rows 3-4: Space.Labs (cols 1-3, spans 2 rows), fillers col 4 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden"
-                style={{ gridColumn: "1 / 4", gridRow: "3 / 5", border: `1px solid ${colors.ember}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/client-2.png" alt="Space.Labs" fill className="object-contain p-2" />
-              </div>
-              <div className="logo-cell aspect-square" style={{ gridColumn: "4 / 5", gridRow: "3 / 4", border: `1px solid ${colors.ember}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div className="logo-cell aspect-square" style={{ gridColumn: "4 / 5", gridRow: "4 / 5", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
+                  {/* Ambient glow on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"
+                       style={{ background: `radial-gradient(circle at center, ${client.color}, transparent 70%)` }} />
 
-              {/* Row 5: Scholaraxis, filler, filler, GradeGuru */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "1 / 2", gridRow: "5 / 6", border: `1px solid ${colors.ember}66`, backgroundColor: "#FFFFFF", opacity: 0 }}
-              >
-                <Image src="/images/clients/Scholaraxis.png" alt="Scholaraxis" fill className="object-contain p-2" />
-              </div>
-              <div className="logo-cell aspect-square" style={{ gridColumn: "2 / 3", gridRow: "5 / 6", border: `1px solid ${colors.accent}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div className="logo-cell aspect-square" style={{ gridColumn: "3 / 4", gridRow: "5 / 6", border: `1px solid ${colors.ember}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "4 / 5", gridRow: "5 / 6", border: `1px solid ${colors.accent}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/GradeGuru11.png" alt="GradeGuru" fill className="object-cover" />
-              </div>
-
-              {/* Row 6: EntryBridge, fillers */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "1 / 2", gridRow: "6 / 7", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/EntryBridge.jpg" alt="EntryBridge" fill className="object-cover" />
-              </div>
-              <div className="logo-cell aspect-square" style={{ gridColumn: "2 / 3", gridRow: "6 / 7", border: `1px solid ${colors.stone[600]}`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div className="logo-cell aspect-square" style={{ gridColumn: "3 / 4", gridRow: "6 / 7", border: `1px solid ${colors.accent}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div className="logo-cell aspect-square" style={{ gridColumn: "4 / 5", gridRow: "6 / 7", border: `1px solid ${colors.ember}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-
-              {/* Line-clear flash overlay (mobile) */}
-              <div
-                className="absolute inset-0 pointer-events-none z-10 flash-overlay"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(45,212,191,0.3), rgba(45,212,191,0.5), rgba(45,212,191,0.3), transparent)",
-                  opacity: 0,
-                }}
-              />
-            </div>
-
-            {/* ── DESKTOP grid (11 cols, 2 rows) — unchanged ── */}
-            <div
-              className="hidden md:grid gap-px relative"
-              style={{
-                backgroundColor: `${colors.stone[600]}10`,
-                gridTemplateColumns: "repeat(11, 1fr)",
-                gridTemplateRows: "repeat(2, 1fr)",
-              }}
-            >
-              {/* ── ROW 1 ── */}
-
-              {/* SickSyx — 3x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden"
-                style={{ gridColumn: "1 / 4", gridRow: "1 / 2", border: `1px solid ${colors.accent}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/SickSyx11.png" alt="SickSyx" fill className="object-contain" />
-              </div>
-
-              {/* filler */}
-              <div className="logo-cell aspect-square" style={{ gridColumn: "4 / 5", gridRow: "1 / 2", border: `1px solid ${colors.stone[600]}`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-
-              {/* Space.Labs — 4x2 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden"
-                style={{ gridColumn: "5 / 9", gridRow: "1 / 3", border: `1px solid ${colors.ember}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/client-2.png" alt="Space.Labs" fill className="object-contain p-2" />
-              </div>
-
-              {/* filler col 9 */}
-              <div className="logo-cell aspect-square" style={{ gridColumn: "9 / 10", gridRow: "1 / 2", border: `1px solid ${colors.ember}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-
-              {/* Kull — 1x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "10 / 11", gridRow: "1 / 2", border: `1px solid ${colors.ember}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/Kull.png" alt="Kull" fill className="object-cover" />
-              </div>
-
-              {/* filler col 11 */}
-              <div className="logo-cell aspect-square" style={{ gridColumn: "11 / 12", gridRow: "1 / 2", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-
-              {/* ── ROW 2 ── (Space.Labs continues cols 5-8) */}
-
-              {/* client-1 — 1x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "1 / 2", gridRow: "2 / 3", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/client-1.png" alt="Client" fill className="object-cover" />
-              </div>
-
-              {/* fillers cols 2-3 */}
-              <div className="logo-cell aspect-square" style={{ gridColumn: "2 / 3", gridRow: "2 / 3", border: `1px solid ${colors.accent}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-              <div className="logo-cell aspect-square" style={{ gridColumn: "3 / 4", gridRow: "2 / 3", border: `1px solid ${colors.ember}66`, backgroundColor: colors.surface, backgroundImage: `repeating-linear-gradient(45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px), repeating-linear-gradient(-45deg, ${colors.accent}20, ${colors.accent}20 1px, transparent 1px, transparent 6px)`, opacity: 0 }} />
-
-              {/* House of Pehr — 1x1 (col 4) */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "4 / 5", gridRow: "2 / 3", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/houseofpehr.webp" alt="House of Pehr" fill className="object-contain p-2" />
-              </div>
-
-              {/* (Space.Labs occupies 5-8) */}
-
-              {/* Scholaraxis — 1x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "9 / 10", gridRow: "2 / 3", border: `1px solid ${colors.ember}66`, backgroundColor: "#FFFFFF", opacity: 0 }}
-              >
-                <Image src="/images/clients/Scholaraxis.png" alt="Scholaraxis" fill className="object-contain p-2" />
-              </div>
-
-              {/* GradeGuru — 1x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "10 / 11", gridRow: "2 / 3", border: `1px solid ${colors.accent}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/GradeGuru11.png" alt="GradeGuru" fill className="object-cover" />
-              </div>
-
-              {/* EntryBridge — 1x1 */}
-              <div
-                className="logo-cell client-logo relative overflow-hidden aspect-square"
-                style={{ gridColumn: "11 / 12", gridRow: "2 / 3", border: `1px solid ${colors.accentMuted}66`, backgroundColor: colors.chalk, opacity: 0 }}
-              >
-                <Image src="/images/clients/EntryBridge.jpg" alt="EntryBridge" fill className="object-cover" />
-              </div>
-
-              {/* Line-clear flash overlay (desktop) */}
-              <div
-                className="absolute inset-0 pointer-events-none z-10 flash-overlay"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(45,212,191,0.3), rgba(45,212,191,0.5), rgba(45,212,191,0.3), transparent)",
-                  opacity: 0,
-                }}
-              />
+                  {/* Technical scan line */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent h-1/3 w-full -translate-y-full group-hover:animate-scan pointer-events-none" />
+                </div>
+              ))}
             </div>
           </div>
 

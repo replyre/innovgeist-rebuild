@@ -68,7 +68,7 @@ export function ServiceCarousel() {
   const tweenRef = useRef<gsap.core.Tween | null>(null);
   const singleSetHeight = useRef(0);
 
-  const allCards = [...SERVICES, ...SERVICES, ...SERVICES];
+  const allCards = [...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES];
 
   const startLoop = useCallback(() => {
     const track = trackRef.current;
@@ -77,13 +77,17 @@ export function ServiceCarousel() {
     tweenRef.current?.kill();
     const h = singleSetHeight.current;
 
+    // Start from -h (the beginning of the second set)
+    gsap.set(track, { y: -h });
+
     tweenRef.current = gsap.to(track, {
       y: `-=${h}`,
-      duration: 20,
+      duration: 15, // Faster speed
       ease: "none",
       repeat: -1,
       modifiers: {
         y(y: string) {
+          // Continuous loop between -h and -2h
           return `${gsap.utils.wrap(-h * 2, -h, parseFloat(y))}px`;
         },
       },
@@ -97,7 +101,8 @@ export function ServiceCarousel() {
 
       const cards = track.querySelectorAll<HTMLElement>(".svc-card");
 
-      requestAnimationFrame(() => {
+      // Small delay to ensure offsets are ready
+      setTimeout(() => {
         let h = 0;
         for (let i = 0; i < SERVICES.length; i++) {
           if (cards[i]) h += cards[i].offsetHeight;
@@ -105,22 +110,23 @@ export function ServiceCarousel() {
         h += SERVICES.length * 8; // gap-2 = 8px
         singleSetHeight.current = h;
 
-        gsap.set(track, { y: -h });
-
+        // Animate visibility of all cards initially
         gsap.fromTo(
           cards,
-          { opacity: 0, x: 30 },
+          { opacity: 0, x: 20 },
           {
             opacity: 1,
             x: 0,
-            duration: 0.5,
-            stagger: 0.06,
+            duration: 0.6,
+            stagger: 0.04,
             delay: 4.2,
-            ease: "power3.out",
-            onComplete: () => startLoop(),
+            ease: "power2.out",
           }
         );
-      });
+
+        // Start movement loop 4.5s in
+        setTimeout(() => startLoop(), 4500);
+      }, 50);
     },
     { scope: containerRef }
   );
@@ -146,7 +152,7 @@ export function ServiceCarousel() {
           return (
             <div
               key={i}
-              className="svc-card rounded-lg px-3 py-2.5 max-w-[250px]"
+              className="svc-card rounded-lg px-2.5 py-2 max-w-[245px] w-full"
               style={{
                 opacity: 0,
                 background: `linear-gradient(135deg, rgba(22,20,18,0.9), rgba(22,20,18,0.6))`,
@@ -156,23 +162,23 @@ export function ServiceCarousel() {
               <div className="flex items-center gap-2.5">
                 {/* Icon */}
                 <div
-                  className="shrink-0 w-8 h-8 rounded-md p-1.5"
+                  className="shrink-0 w-6.5 h-6.5 rounded-md p-1"
                   style={{ background: `${accent}12`, color: accent, border: `1px solid ${accent}25` }}
                 >
                   {card.icon}
                 </div>
 
                 {/* Title */}
-                <span className="flex-1 font-sans font-semibold text-[13px] text-[#F5F0EB] tracking-tight">
+                <span className="flex-1 font-sans font-bold text-[13px] text-[#F5F0EB] tracking-tight leading-tight min-w-0">
                   {card.title}
                 </span>
 
                 {/* Metric */}
                 <div className="shrink-0 text-right">
-                  <span className="font-display text-lg leading-none block" style={{ color: accent }}>
+                  <span className="font-display text-base leading-none block" style={{ color: accent }}>
                     {card.metric}
                   </span>
-                  <span className="font-mono block mt-0.5" style={{ fontSize: "8px", letterSpacing: "0.08em", color: "#9C8E80" }}>
+                  <span className="font-mono block mt-0.5 opacity-80" style={{ fontSize: "7px", letterSpacing: "0.06em", color: "#9C8E80" }}>
                     {card.metricLabel}
                   </span>
                 </div>

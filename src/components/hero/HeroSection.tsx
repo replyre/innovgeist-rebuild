@@ -18,9 +18,8 @@ export function HeroSection() {
   // Feature 1: Logo entrance refs
   const logoOverlayRef = useRef<HTMLDivElement>(null);
   const logoImgRef = useRef<HTMLImageElement>(null);
-  const rightBgRef = useRef<HTMLCanvasElement>(null);
   const laptopControlsRef = useRef<{ flipIn: () => gsap.core.Timeline } | null>(null);
-  const mobileOverlayRef = useRef<HTMLDivElement>(null);
+
 
   const onLaptopReady = useCallback((controls: { flipIn: () => gsap.core.Timeline }) => {
     laptopControlsRef.current = controls;
@@ -29,8 +28,8 @@ export function HeroSection() {
   // Feature 2: Background fading on window close/open
   const onWindowChange = useCallback(
     (state: { dashboardVisible: boolean; tetrisVisible: boolean }) => {
-      if (rightBgRef.current) {
-        gsap.to(rightBgRef.current, {
+      if (mirrorCanvasRef.current) {
+        gsap.to(mirrorCanvasRef.current, {
           opacity: state.tetrisVisible ? 0.7 : 0,
           duration: 0.5,
           ease: "power2.out",
@@ -46,7 +45,7 @@ export function HeroSection() {
       if (!logoOverlayRef.current || !logoImgRef.current) return;
 
       // Set backgrounds to invisible initially
-      if (rightBgRef.current) gsap.set(rightBgRef.current, { opacity: 0 });
+      if (mirrorCanvasRef.current) gsap.set(mirrorCanvasRef.current, { opacity: 0 });
 
       const tl = gsap.timeline();
 
@@ -113,24 +112,19 @@ export function HeroSection() {
         }
       });
 
-      // Mobile blur overlay fades in after flip
-      if (mobileOverlayRef.current) {
-        tl.to(mobileOverlayRef.current, {
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out",
-        }, "+=0.6");
-      }
+
 
       // (3.8–4.2s) Right background fades in
       tl.to(
-        rightBgRef.current,
+        mirrorCanvasRef.current,
         { opacity: 0.7, duration: 0.4, ease: "power1.out" },
         "+=1.2"
       );
 
       // Cleanup overlay
-      tl.set(logoOverlayRef.current, { display: "none", pointerEvents: "none" });
+      tl.to(logoOverlayRef.current, { opacity: 0, duration: 0.1, onComplete: () => {
+        if (logoOverlayRef.current) logoOverlayRef.current.style.display = "none";
+      }});
     },
     { scope: sectionRef }
   );
@@ -174,25 +168,22 @@ export function HeroSection() {
           ref={logoImgRef}
           src="/images/logo.png"
           alt="innovgeist"
-          className="w-40 h-40 object-contain"
+          className="w-32 h-32 object-contain"
           style={{ filter: "brightness(0) invert(1)", opacity: 0 }}
         />
       </div>
 
       {/* Tetris mirror background — right side, shifted up (hidden on mobile) */}
       <canvas
-        ref={(el) => {
-          rightBgRef.current = el;
-          (mirrorCanvasRef as React.MutableRefObject<HTMLCanvasElement | null>).current = el;
-        }}
+        ref={mirrorCanvasRef}
         className="hidden md:block absolute right-0 pointer-events-none overflow-hidden"
         style={{ opacity: 0, width: "50%", height: "120%", bottom: "-10%", filter: "blur(5.5px)" }}
       />
 
-      <Container className="relative z-10 pt-16 pb-6 md:py-12 lg:py-20 md:-mt-8 lg:-mt-12">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-6">
+      <Container className="relative z-10 pt-8 pb-6 md:py-12 lg:py-20 md:-mt-8 lg:-mt-12">
+        <div className="flex flex-col lg:flex-row items-center gap-0 lg:gap-6">
           {/* Text — left */}
-          <div ref={textRef} className="relative z-[3] w-full lg:w-[52%] lg:pr-8 xl:pr-12 order-2 lg:order-1">
+          <div ref={textRef} className="relative z-[3] w-full lg:w-[52%] lg:pr-8 xl:pr-12 order-1">
             <HeroText />
 
             {/* Hint pointers — desktop only */}
@@ -240,7 +231,7 @@ export function HeroSection() {
           {/* 3D Laptop — right */}
           <div
             ref={carouselRef}
-            className="absolute left-0 right-0 bottom-[-240px] h-[50vh] z-[1] md:relative md:left-auto md:right-auto md:bottom-auto md:h-[400px] md:z-auto md:w-full lg:w-[48%] md:order-1 lg:order-2 lg:h-[480px] xl:h-[560px]"
+            className="relative w-full lg:w-[48%] h-[380px] sm:h-[400px] lg:h-[480px] xl:h-[560px] z-[1] order-2 flex items-center justify-center mt-0 md:mt-0 scale-[0.7] sm:scale-90 md:scale-100 origin-center"
           >
             {/* Glow behind laptop */}
             <div
@@ -269,13 +260,6 @@ export function HeroSection() {
               onWindowChange={onWindowChange}
             />
           </div>
-
-          {/* Mobile blur overlay — fades in after laptop flip */}
-          <div
-            ref={mobileOverlayRef}
-            className="md:hidden absolute inset-0 z-[2] pointer-events-none"
-            style={{ opacity: 0, backgroundColor: 'rgba(12,10,9,0.5)', backdropFilter: 'blur(1.5px)' }}
-          />
         </div>
       </Container>
     </section>

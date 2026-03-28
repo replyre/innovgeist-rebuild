@@ -10,8 +10,8 @@ const INITIAL_ROT_X = -16;
 const INITIAL_ROT_Y = -22;
 const DRAG_SENSITIVITY = 0.35;
 
-const SCREEN_W = 460;
-const SCREEN_H = 310;
+const SCREEN_W = 540;
+const SCREEN_H = 340;
 const BASE_DEPTH = 230;
 
 type WindowStatus = "normal" | "minimized" | "closed" | "maximized";
@@ -537,7 +537,7 @@ export function Laptop3D({ mirrorCanvasRef, tetrisRef, onReady, onWindowChange }
           <img
             src="/images/logo.png"
             alt="innovgeist"
-            className="relative w-16 h-16 object-contain"
+            className="relative w-12 h-12 object-contain"
             style={{
               filter: "brightness(0) invert(1)",
               opacity: 0.7,

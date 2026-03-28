@@ -158,10 +158,12 @@ export function WhatWeDoSection() {
           });
 
           // Dim "don't do" items
-          dontDoRefs.current.forEach((el) => {
-            if (!el) return;
-            tl.to(el, { opacity: 0.3, duration: 0.02 }, 0.07);
-          });
+          if (!isMobile) {
+            dontDoRefs.current.forEach((el) => {
+              if (!el) return;
+              tl.to(el, { opacity: 0.3, duration: 0.02 }, 0.07);
+            });
+          }
 
           // Card animations — synced with line clears
           SERVICES.forEach((service, i) => {
@@ -177,7 +179,7 @@ export function WhatWeDoSection() {
             );
 
             // Dim previous card
-            if (i > 0) {
+            if (!isMobile && i > 0) {
               const prevCard = cardRefs.current[i - 1];
               if (prevCard) {
                 tl.to(
@@ -189,8 +191,8 @@ export function WhatWeDoSection() {
             }
           });
 
-          // Auto-scroll card container on small screens (desktop only)
-          if (!isMobile && cardContainerRef.current) {
+          // Auto-scroll card container (on both mobile and desktop)
+          if (cardContainerRef.current) {
             const container = cardContainerRef.current;
             const scrollProxy = { scroll: 0 };
 
@@ -217,10 +219,12 @@ export function WhatWeDoSection() {
           });
 
           // All 4 cards return to full opacity at 0.78
-          cardRefs.current.forEach((card) => {
-            if (!card) return;
-            tl.to(card, { opacity: 1, duration: 0.04 }, 0.78);
-          });
+          if (!isMobile) {
+            cardRefs.current.forEach((card) => {
+              if (!card) return;
+              tl.to(card, { opacity: 1, duration: 0.04 }, 0.78);
+            });
+          }
 
           // Positioning line fades in (0.78)
           if (positioningRef.current) {
