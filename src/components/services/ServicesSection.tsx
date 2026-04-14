@@ -10,35 +10,35 @@ const SERVICES = [
   {
     keyword: "AUTOMATE",
     title: "Sales & Marketing Automation Systems",
-    desc: "End-to-end automation that captures, nurtures, and converts leads without manual intervention — so your team focuses on closing, not chasing.",
+    desc: "We design automated systems that handle lead capture, follow-ups, qualification, and handoffs—reducing manual effort while improving conversion consistency.",
     accent: colors.accent,
     primary: true,
   },
   {
     keyword: "PIPELINE",
     title: "CRM & Revenue Workflow Engineering",
-    desc: "Structured pipelines that connect every stage of your revenue engine — from first touch to closed deal — with zero data gaps.",
+    desc: "We architect custom CRM pipelines and revenue workflows that align sales, marketing, and operations—giving teams clarity and control over how deals move.",
     accent: colors.accent,
     primary: true,
   },
   {
     keyword: "INTEL",
     title: "AI-Powered Automation & Intelligence",
-    desc: "Intelligent systems that learn, adapt, and surface insights — turning raw data into decisions and manual processes into autonomous workflows.",
+    desc: "We integrate AI into revenue operations to support smarter lead scoring, routing, prioritization, and internal decision-making.",
     accent: colors.accentMuted,
     primary: true,
   },
   {
     keyword: "AGENCY",
     title: "Agency Automation Infrastructure",
-    desc: "White-label and internal systems built for agencies scaling client delivery — onboarding, reporting, and fulfillment on autopilot.",
+    desc: "We work with marketing and growth agencies to build internal automation and white-label systems that improve delivery efficiency and ROI for their clients.",
     accent: colors.ember,
     primary: true,
   },
   {
     keyword: "CUSTOM",
     title: "Custom Software & Platform Development",
-    desc: "Bespoke platforms and tools engineered to your exact specifications — when off-the-shelf doesn't cut it.",
+    desc: "When off-the-shelf tools fall short, we build custom software and internal platforms that support complex workflows and long-term scale.",
     accent: colors.stone[600],
     primary: false,
   },
@@ -328,7 +328,7 @@ export function ServicesSection() {
     { scope: sectionRef }
   );
 
-  const words = "What We Build".split(" ");
+  const words = "Revenue Automation Services Built for Scale".split(" ");
 
   return (
     <section
@@ -365,7 +365,9 @@ export function ServicesSection() {
           className="text-stone-400 type-small mb-4 sm:mb-6 md:mb-8"
           style={{ opacity: 0 }}
         >
-          Systems engineered to eliminate friction and compound growth.
+          Our services are designed to remove friction across your sales and
+          marketing operations—using automation, intelligence, and custom
+          systems to drive measurable outcomes.
         </p>
 
         {/* Main content: visual panel + cards */}

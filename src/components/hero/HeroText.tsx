@@ -61,8 +61,9 @@ export function HeroText() {
         className="max-w-lg type-body text-stone-200"
         style={{ opacity: 0 }}
       >
-        Innovgeist partners with growth-focused companies to architect intelligent
-        automation pipelines — from lead capture to scaled revenue.
+        Innovgeist partners with growth-focused businesses to design and build
+        automated sales and marketing systems—combining software, AI, and
+        workflows to improve conversion efficiency and scale revenue.
       </p>
 
       {/* CTAs */}

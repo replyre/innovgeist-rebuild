@@ -9,20 +9,18 @@ import { Button } from "@/components/ui/Button";
 import { colors } from "@/lib/theme";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
+  { label: "Services", href: "/services" },
   { label: "Products", href: "/products", hasDropdown: true },
-  { label: "Case Studies", href: "#testimonials" },
-  { label: "How We Work", href: "#how-we-work" },
-  { label: "Contact", href: "#contact" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Insights", href: "/insights" },
 ];
 
 const productDropdownItems = [
   {
-    label: "GradeGuru",
-    href: "https://gradeguru.innovgeist.com",
-    description: "AI-powered academic assessment & learning platform",
-    color: colors.accent,
+    label: "GRADEguru",
+    href: "/products",
+    description: "Academic Operating System for continuous accreditation readiness",
+    color: colors.ember,
     logo: "/images/clients/GradeGuru11.png",
   },
 ];
@@ -191,24 +189,29 @@ export function Navbar() {
                           <a
                             key={item.label}
                             href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center gap-3 px-4 py-3.5 transition-colors duration-200 hover:bg-white/[0.04]"
+                            className="group flex items-start gap-3 px-4 py-4 transition-colors duration-200 hover:bg-white/[0.04]"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={item.logo} alt={item.label} className="w-7 h-7 rounded-full object-cover shrink-0" />
-                            <span className="text-sm text-chalk font-medium group-hover:text-white transition-colors">
-                              {item.label}
-                            </span>
-                            <svg
-                              width={14}
-                              height={14}
-                              viewBox="0 0 14 14"
-                              fill="none"
-                              className="ml-auto text-stone-600 group-hover:text-chalk group-hover:translate-x-0.5 transition-all duration-200"
-                            >
-                              <path d="M4 7h7m0 0l-3-3m3 3l-3 3" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            <img src={item.logo} alt={item.label} className="w-7 h-7 rounded-full object-cover shrink-0 mt-0.5" />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm text-chalk font-medium group-hover:text-white transition-colors">
+                                  {item.label}
+                                </span>
+                                <svg
+                                  width={12}
+                                  height={12}
+                                  viewBox="0 0 14 14"
+                                  fill="none"
+                                  className="text-stone-600 group-hover:text-chalk group-hover:translate-x-0.5 transition-all duration-200 shrink-0"
+                                >
+                                  <path d="M4 7h7m0 0l-3-3m3 3l-3 3" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                              <span className="text-xs text-stone-600 font-mono leading-snug mt-0.5 block">
+                                {item.description}
+                              </span>
+                            </div>
                           </a>
                         ))}
                       </div>
@@ -312,8 +315,6 @@ export function Navbar() {
                           <a
                             key={item.label}
                             href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             onClick={closeMenu}
                             className="flex items-center gap-3 group"
                           >

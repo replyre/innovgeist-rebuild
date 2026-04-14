@@ -245,8 +245,9 @@ export function ProblemSection() {
           className="text-stone-400 type-small max-w-2xl mb-4 sm:mb-6 md:mb-8"
           style={{ opacity: 0 }}
         >
-          Most growing businesses hit the same walls. The tools multiply, the
-          processes break, and revenue slips through the cracks.
+          Most growing businesses don&apos;t struggle with demand — they struggle
+          with execution. Leads come in, teams stay busy, tools multiply&hellip;
+          yet conversions plateau and revenue becomes unpredictable.
         </p>
 
         {/* Main content: cards + canvas */}
@@ -331,8 +332,8 @@ export function ProblemSection() {
           className="relative z-[3] md:z-auto text-stone-400 text-sm md:text-base mt-6 md:mt-8"
           style={{ opacity: 0 }}
         >
-          When systems don&apos;t scale, growth doesn&apos;t either. The game is
-          over before you know it.
+          When systems don&apos;t scale, growth depends on people pushing harder
+          instead of processes working smarter.
         </p>
       </Container>
     </section>
